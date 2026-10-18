@@ -1,10 +1,12 @@
 -- =====================================================================
 --  CI-3661 — Tarea 1 (Haskell) — Septiembre–Diciembre 2026
 --
---  Nombre:
---  Carnet:
+--  Nombre: Brian Orta
+--  Carnet: 21-10447
 --
 --  Declaración de uso de herramientas de IA (obligatoria, ver enunciado):
+--  He usado Gemini para realizar preuntas puntuales y entender la sintaxis
+--  de funciones y palabras claves del lenguaje.
 --
 -- =====================================================================
 --  No cambies el nombre del módulo ni la lista de exportación, ni las
@@ -34,7 +36,12 @@ import Data.Char (isAlphaNum, isDigit, toLower, digitToInt)
 
 -- A1
 esPalindromo :: String -> Bool
-esPalindromo = undefined
+esPalindromo [] = True
+esPalindromo [_] = True
+esPalindromo (x:xs)
+  | not (isAlphaNum x) = esPalindromo xs
+  | not (isAlphaNum (last xs)) = esPalindromo (x:init xs)
+  | otherwise = (toLower x == toLower (last xs)) && esPalindromo (init xs) 
 
 -- A2
 -- Explica aquí, en dos o tres líneas, por qué tu solución recorre la
