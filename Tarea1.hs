@@ -27,7 +27,6 @@ module Tarea1
   ) where
 
 import Data.Char (isAlphaNum, isDigit, toLower, digitToInt)
-import Data.Maybe (fromMaybe)
 
 -- =====================================================================
 -- Parte A: recursión explícita.
@@ -96,7 +95,7 @@ movimientosCaballo :: (Int, Int) -> [(Int, Int)]
 movimientosCaballo (x, y) 
   | x >= 1 && x <= 8 && y >= 1 && y <= 8 = [(x+a, y+b) | a <- [-2, -1, 1, 2], x+a <= 8, x+a >= 1, b <- [-2, -1, 1, 2], y+b <= 8, y+b >= 1, abs a /= abs b] 
   | otherwise = []
-  
+
 enDosSaltos :: (Int, Int) -> Int
 enDosSaltos (x, y) = 
     let starts = movimientosCaballo (x, y)
