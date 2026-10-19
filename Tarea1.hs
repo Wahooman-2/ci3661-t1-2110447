@@ -93,7 +93,7 @@ promedioSobreUmbral a l =
 
 -- B2
 movimientosCaballo :: (Int, Int) -> [(Int, Int)]
-movimientosCaballo = undefined
+movimientosCaballo (x, y) = [(x+a, y+b) | a <- [-2, -1, 1, 2], x+a <= 8, x+a >= 1, b <- [-2, -1, 1, 2], y+b <= 8, y+b >= 1, abs a /= abs b] 
 
 enDosSaltos :: (Int, Int) -> Int
 enDosSaltos (x, y) = 
