@@ -1,0 +1,47 @@
+Mi carnet es 21-10447, por lo tanto tenemos que d = [0, 4, 4, 7].
+
+a) Veamos la reduccion de foldr (-) 0 [0, 4, 4, 7]:
+    foldr (-) 0 [0, 4, 4, 7]
+    = 0 - foldr (-) 0 [4, 4, 7]
+    = 0 - (4 - foldr (-) 0 [4, 7])
+    = 0 - (4 - (4 - foldr (-) 0 [7]))
+    = 0 - (4 - (4 - (7 - foldr (-) 0 [])))
+    = 0 - (4 - (4 - (7 - 0)))
+    = 0 - (4 - (4 - 7))
+    = 0 - (4 - (-3))
+    = 0 - 7
+    = -7
+
+b) Ahora veamos foldl (-) 0 [0, 4, 4, 7]:
+    foldl (-) 0 [0, 4, 4, 7]
+    = foldl (-) (0 - 0) [4, 4, 7]
+    = foldl (-) ((0 - 0) - 4) [4, 7]
+    = foldl (-) (((0 - 0) - 4) - 4) [7]
+    = foldl (-) ((((0 - 0) - 4) - 4) - 7) []
+    = (((0 - 0) - 4) - 4) - 7
+    = ((0 - 4) - 4) - 7
+    = ((-4) - 4) - 7
+    = (-8) - 7
+    = -15
+
+c) Ahora veamos miFoldl (-) 0 [0, 4]
+    miFoldl (-) 0 [0, 4]
+    = foldr (\val f1 x -> f1 ((-) x val)) id [0, 4] 0
+    = (- 0 (foldr (\val f1 x -> f1 ((-) x val)) id [4] 0))
+    = (- 0 (- 4 (foldr (\val f1 x -> f1 ((-) x val)) id [] 0)))
+    = (- 0 (- 4 (id 0)))
+    = (- 0 (- 4 (0)))
+    = (- 0 (-4))
+    = -4
+
+d) Esta discrepancia ocurre debido a que la operacion menos no es asociativa.
+   En materias anteriores hemos demostrado que (a - (b - c)) != ((a - b) - c), debido a esto
+   el orden en el que evaluamos restas encadenadas nos puede llevar a un resultado distinto,
+   lo que signfica que 0 - (4 - (4 - 7)) no evalua a lo mismo que ((0 - 4) - 4) - 7.
+   Por lo tanto, para asegurar que la equivalencia planteada en el enunciado se cumpla, es necesario
+   que op sea una operacion asociativa como la suma, donde el orden en el que se ejecuten las operaciones
+   no altera el resultado. Respecto a z, un detalle importante es que foldr coloca el caso base a la
+   derecha de la ultima evaluacion mientras que foldl lo coloca a la izquierda de la primera, para que 
+   esta discrepancia no cause problemas tambien hace falta que z sea el neutro de la operacion tanto por 
+   la izquierda como por la derecha (tambien aceptable que op sea conmutativa sin restricciones sobre z), 
+   casualmente en mi version del ejercicio no causo problemas, pero es importante. 
