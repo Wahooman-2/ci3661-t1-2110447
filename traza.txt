@@ -43,5 +43,5 @@ d) Esta discrepancia ocurre debido a que la operacion menos no es asociativa.
    no altera el resultado. Respecto a z, un detalle importante es que foldr coloca el caso base a la
    derecha de la ultima evaluacion mientras que foldl lo coloca a la izquierda de la primera, para que 
    esta discrepancia no cause problemas tambien hace falta que z sea el neutro de la operacion tanto por 
-   la izquierda como por la derecha (tambien aceptable que op sea conmutativa sin restricciones sobre z), 
-   casualmente en mi version del ejercicio no causo problemas, pero es importante. 
+   la izquierda como por la derecha (tambien aceptable que op sea conmutativa y asociativa sin 
+   restricciones sobre z), casualmente en mi version del ejercicio no causo problemas, pero es importante. 
