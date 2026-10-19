@@ -86,21 +86,28 @@ duracion a b =
 
 -- B1
 promedioSobreUmbral :: Double -> [Double] -> Maybe Double
-promedioSobreUmbral = undefined
+promedioSobreUmbral a l = 
+  case foldr (\x (total, count) -> if x > a then (total+x, count+1) else (total, count)) (0, 0) l of
+    (_, 0) -> Nothing
+    (total, count) -> Just (total / count)
 
 -- B2
 movimientosCaballo :: (Int, Int) -> [(Int, Int)]
 movimientosCaballo = undefined
 
 enDosSaltos :: (Int, Int) -> Int
-enDosSaltos = undefined
+enDosSaltos (x, y) = 
+    let starts = movimientosCaballo (x, y)
+        spaces = [y | x <- starts, y <- movimientosCaballo x]
+        (_, ans) = foldr (\(a, b) (seen, x) -> if notElem (a, b) seen then ((a, b):seen, x+1) else (seen, x)) ([], 0) spaces
+    in ans
 
 -- B3
 miMap :: (a -> b) -> [a] -> [b]
-miMap = undefined
+miMap f l = foldr (\x result -> (f x):result) [] l
 
 miFilter :: (a -> Bool) -> [a] -> [a]
-miFilter = undefined
+miFilter f l = foldr (\x valid -> if (f x) then (x:valid) else valid) [] l
 
 miFoldl :: (b -> a -> b) -> b -> [a] -> b
-miFoldl = undefined
+miFoldl f base l = foldr (\val f1 x -> f1 (f x val)) id l base
