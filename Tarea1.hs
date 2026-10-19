@@ -27,6 +27,7 @@ module Tarea1
   ) where
 
 import Data.Char (isAlphaNum, isDigit, toLower, digitToInt)
+import Data.Maybe (fromMaybe)
 
 -- =====================================================================
 -- Parte A: recursión explícita.
@@ -45,17 +46,37 @@ esPalindromo (x:xs)
 
 -- A2
 -- Explica aquí, en dos o tres líneas, por qué tu solución recorre la
--- lista una sola vez:
+-- lista una sola vez: 
+-- Realiza una llamada recursiva por cada elemento de la lista
+-- hasta que llega al ultimo elemento, luego calcula todos los
+-- maximos y minimos con los datos obtenidos. 
 --
 mayorYMenor :: Ord a => [a] -> Maybe (a, a)
-mayorYMenor = undefined
-
+mayorYMenor [] = Nothing
+mayorYMenor [b] = Just (b, b)
+mayorYMenor (x:xs) = Just (max x high, min x low)
+  where (high, low) = case mayorYMenor xs of
+                      Just result -> result
+                      Nothing -> (x, x)
 -- A3
 leerHora :: String -> Either String (Int, Int)
-leerHora = undefined
+leerHora [a, b, ':', c, d]
+  | not (isDigit a && isDigit b && isDigit c && isDigit d) = Left "formato inválido"
+  | (read ([a] ++ [b]) :: Int) > 23 = Left "hora fuera de rango"
+  | (read ([c] ++ [d]) :: Int) > 59 = Left "minutos fuera de rango"
+  | otherwise = Right (read ([a] ++ [b]) :: Int, read ([c] ++ [d]) :: Int)
+leerHora _ = Left "formato inválido"
 
 duracion :: String -> String -> Either String Int
-duracion = undefined
+duracion a b = 
+  case leerHora a of
+    Left s -> Left s
+    Right (a1, b1) -> case leerHora b of
+                        Left t -> Left t
+                        Right (a2, b2) -> if time1 > time2 then Right ((time2+1440) - time1) else Right (time2 - time1)
+                         where
+                          time1 = (a1*60) + b1
+                          time2 = (a2*60) + b2
 
 -- =====================================================================
 -- Parte B: orden superior.
