@@ -63,7 +63,7 @@ leerHora [a, b, ':', c, d]
   | not (isDigit a && isDigit b && isDigit c && isDigit d) = Left "formato inválido"
   | (read ([a] ++ [b]) :: Int) > 23 = Left "hora fuera de rango"
   | (read ([c] ++ [d]) :: Int) > 59 = Left "minutos fuera de rango"
-  | otherwise = Right (read ([a] ++ [b]) :: Int, read ([c] ++ [d]) :: Int)
+  | otherwise = Right ((digitToInt a)*10 + (digitToInt b), (digitToInt c)*10 + (digitToInt d))
 leerHora _ = Left "formato inválido"
 
 duracion :: String -> String -> Either String Int
@@ -99,8 +99,8 @@ movimientosCaballo (x, y)
 enDosSaltos :: (Int, Int) -> Int
 enDosSaltos (x, y) = 
     let starts = movimientosCaballo (x, y)
-        spaces = [y | x <- starts, y <- movimientosCaballo x]
-        (_, ans) = foldr (\(a, b) (seen, x) -> if notElem (a, b) seen then ((a, b):seen, x+1) else (seen, x)) ([], 0) spaces
+        spaces = [v | u <- starts, v <- movimientosCaballo u]
+        (_, ans) = foldr (\(a, b) (seen, count) -> if notElem (a, b) seen then ((a, b):seen, count+1) else (seen, count)) ([], 0) spaces
     in ans
 
 -- B3
